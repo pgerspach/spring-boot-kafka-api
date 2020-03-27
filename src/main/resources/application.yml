@@ -7,6 +7,14 @@ hello:
 
 greetingservice:
   beanName: "hola"
+  
+kafka-orders:
+  ordersTopicName: orders
+  kafkaAcknowledge: "1"
+  kafkaProducerIdempotence: false
+  kafkaConsumerGroupid: orders-consumer-group
+  kafkaBrokers: "localhost:9092"
+  
 
 swagger:
   baseApiPackage:
