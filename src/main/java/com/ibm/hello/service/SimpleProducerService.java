@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.ibm.hello.config.IKafkaConstants;
+import com.ibm.hello.config.SimpleKafkaConstants;
 
 
 @Service
@@ -21,8 +21,8 @@ public class SimpleProducerService {
 	public void runProducer() {
 		Producer<Long, String> producer = ProducerCreator.createProducer();
 
-		for (int index = 0; index < IKafkaConstants.MESSAGE_COUNT; index++) {
-			final ProducerRecord<Long, String> record = new ProducerRecord<Long, String>(IKafkaConstants.TOPIC_NAME,
+		for (int index = 0; index < SimpleKafkaConstants.MESSAGE_COUNT; index++) {
+			final ProducerRecord<Long, String> record = new ProducerRecord<Long, String>(SimpleKafkaConstants.TOPIC_NAME,
 					"This is record " + index);
 			try {
 				RecordMetadata metadata = producer.send(record).get();

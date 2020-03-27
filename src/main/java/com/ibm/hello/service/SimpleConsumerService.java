@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.ibm.hello.config.IKafkaConstants;
+import com.ibm.hello.config.SimpleKafkaConstants;
 
 @Service
 public class SimpleConsumerService {
@@ -26,7 +26,7 @@ public class SimpleConsumerService {
 			
 			if (consumerRecords.count() == 0) {
 				noMessageToFetch++;
-				if (noMessageToFetch > IKafkaConstants.MAX_NO_MESSAGE_FOUND_COUNT)
+				if (noMessageToFetch > SimpleKafkaConstants.MAX_NO_MESSAGE_FOUND_COUNT)
 					break;
 				else
 					continue;

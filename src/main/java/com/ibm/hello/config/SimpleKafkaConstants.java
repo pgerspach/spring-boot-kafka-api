@@ -1,6 +1,6 @@
 package com.ibm.hello.config;
 
-public interface IKafkaConstants {
+public interface SimpleKafkaConstants {
 	public static String KAFKA_BROKERS = "localhost:9092";
 	
 	public static Integer MESSAGE_COUNT=1000;
