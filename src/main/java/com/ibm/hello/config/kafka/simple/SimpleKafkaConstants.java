@@ -1,4 +1,4 @@
-package com.ibm.hello.config;
+package com.ibm.hello.config.kafka.simple;
 
 public interface SimpleKafkaConstants {
 	public static String KAFKA_BROKERS = "localhost:9092";

@@ -7,8 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ibm.hello.service.SimpleConsumerService;
-import com.ibm.hello.service.SimpleProducerService;
+import com.ibm.hello.service.kafka.simple.SimpleConsumerService;
+import com.ibm.hello.service.kafka.simple.SimpleProducerService;
 
 @RestController
 public class SimpleKafkaController {

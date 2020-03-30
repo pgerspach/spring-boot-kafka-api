@@ -1,4 +1,4 @@
-package com.ibm.hello.service;
+package com.ibm.hello.service.kafka.simple;
 
 import java.util.Properties;
 
@@ -7,7 +7,8 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
-import com.ibm.hello.config.SimpleKafkaConstants;
+
+import com.ibm.hello.config.kafka.simple.SimpleKafkaConstants;
 
 
 public class ProducerCreator {

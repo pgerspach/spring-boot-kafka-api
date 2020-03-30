@@ -1,4 +1,4 @@
-package com.ibm.hello.service;
+package com.ibm.hello.service.kafka.simple;
 
 import java.util.concurrent.ExecutionException;
 
@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.ibm.hello.config.SimpleKafkaConstants;
+import com.ibm.hello.config.kafka.simple.SimpleKafkaConstants;
 
 
 @Service
