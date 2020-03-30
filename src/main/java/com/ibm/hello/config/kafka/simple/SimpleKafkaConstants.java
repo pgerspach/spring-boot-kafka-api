@@ -3,7 +3,7 @@ package com.ibm.hello.config.kafka.simple;
 public interface SimpleKafkaConstants {
 	public static String KAFKA_BROKERS = "localhost:9092";
 	
-	public static Integer MESSAGE_COUNT=1000;
+	public static Integer MESSAGE_COUNT=5;
 	
 	public static String CLIENT_ID="client1";
 	

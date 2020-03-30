@@ -1,4 +1,4 @@
-package com.ibm.hello.service.kafka.simple;
+package com.ibm.hello.config.kafka.simple;
 
 import java.util.Collections;
 import java.util.Properties;
@@ -8,12 +8,14 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import com.ibm.hello.config.kafka.simple.SimpleKafkaConstants;
 
-
+@Configuration
 public class ConsumerCreator {
 
+	@Bean
 	public static Consumer<Long, String> createConsumer() {
 		final Properties props = new Properties();
 		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, SimpleKafkaConstants.KAFKA_BROKERS);

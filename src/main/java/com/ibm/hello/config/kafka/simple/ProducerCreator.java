@@ -1,4 +1,4 @@
-package com.ibm.hello.service.kafka.simple;
+package com.ibm.hello.config.kafka.simple;
 
 import java.util.Properties;
 
@@ -7,12 +7,13 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import com.ibm.hello.config.kafka.simple.SimpleKafkaConstants;
-
-
+@Configuration
 public class ProducerCreator {
 
+	@Bean
 	public static Producer<Long, String> createProducer() {
 		Properties props = new Properties();
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, SimpleKafkaConstants.KAFKA_BROKERS);
