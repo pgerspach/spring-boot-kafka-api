@@ -22,8 +22,19 @@ public class SimpleKafkaOrderController {
 	OrderService orderService;
 
 	@GetMapping(value = "/simple-order-producer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public OrderEntity simpleProducer() {
+	public OrderEntity simpleOrderProducer() {
 		LOGGER.info("In Controller for the simple order producer");
+		Address address = new Address("123 main street", "ny", "usa", "ny", "10001");
+		OrderParameters orderParameters = new OrderParameters("12345", "12345", 1, address);
+		OrderEntity order = OrderFactory.createNewOrder(orderParameters);
+		orderService.createOrder(order);
+		return order;
+
+	}
+	
+	@GetMapping(value = "/simple-order-consumer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public OrderEntity simpleOrderConsumer() {
+		LOGGER.info("In Controller for the simple order consumer");
 		Address address = new Address("123 main street", "ny", "usa", "ny", "10001");
 		OrderParameters orderParameters = new OrderParameters("12345", "12345", 1, address);
 		OrderEntity order = OrderFactory.createNewOrder(orderParameters);

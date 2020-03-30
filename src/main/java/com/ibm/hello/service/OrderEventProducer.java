@@ -51,7 +51,7 @@ public class OrderEventProducer implements EventEmitter {
 	    
 	    @Override
 	    public void emit(OrderEvent orderEvent) throws Exception  {
-	    	String value = objectMapper.toString();
+	    	String value = objectMapper.writeValueAsString(orderEvent);
 	    	LOGGER.info("Send " + value);
 	    	String key = orderEvent.getPayload().getOrderID();
 	        ProducerRecord<String, String> record = new ProducerRecord<>(getKafkaConfiguration().getOrdersTopicName(), key, value);
