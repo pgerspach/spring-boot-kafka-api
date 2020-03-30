@@ -1,7 +1,7 @@
 package com.ibm.hello.model.kafka.simple;
 
-public class SimpleResponse {
-	public SimpleResponse(int successCounter, int failCounter) {
+public class SimpleKafkaProducerResponse {
+	public SimpleKafkaProducerResponse(int successCounter, int failCounter) {
 		super();
 		this.successCounter = successCounter;
 		this.failCounter = failCounter;

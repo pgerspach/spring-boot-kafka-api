@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ibm.hello.config.kafka.simple.SimpleKafkaConstants;
-import com.ibm.hello.model.kafka.simple.SimpleResponse;
+import com.ibm.hello.model.kafka.simple.SimpleKafkaProducerResponse;
 
 
 @Service
@@ -27,7 +27,7 @@ public class SimpleProducerService {
 		this.kafkaProducer = kafkaProducer;
 	}
 
-	public SimpleResponse runProducer() {
+	public SimpleKafkaProducerResponse runProducer() {
 
 		int successCounter = 0;
 		int failCounter = 0;
@@ -44,7 +44,7 @@ public class SimpleProducerService {
 				failCounter++;
 			}
 		}
-		return new SimpleResponse(successCounter, failCounter);
+		return new SimpleKafkaProducerResponse(successCounter, failCounter);
 	}
 
 }
