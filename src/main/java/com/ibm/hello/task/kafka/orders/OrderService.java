@@ -1,4 +1,4 @@
-package com.ibm.hello.task;
+package com.ibm.hello.task.kafka.orders;
 
 
 import org.slf4j.Logger;
@@ -6,10 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ibm.hello.model.OrderEntity;
-import com.ibm.hello.model.OrderEvent;
-import com.ibm.hello.model.OrderPayload;
-import com.ibm.hello.service.OrderEventProducer;
+import com.ibm.hello.model.kafka.orders.OrderEntity;
+import com.ibm.hello.model.kafka.orders.OrderEvent;
+import com.ibm.hello.model.kafka.orders.OrderPayload;
+import com.ibm.hello.service.kafka.orders.OrderEventProducer;
 
 @Service
 public class OrderService {

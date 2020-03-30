@@ -101,7 +101,7 @@ List Kafka topics
 ./bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
 
 Delete Kafka topic
-/bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic demo
+./bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic demo
 
 For the orders demo to work, the following topic needs to be created:
 ./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic orders

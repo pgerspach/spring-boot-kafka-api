@@ -1,4 +1,4 @@
-package com.ibm.hello.model;
+package com.ibm.hello.model.kafka.orders;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

@@ -1,4 +1,4 @@
-package com.ibm.hello.task;
+package com.ibm.hello.task.kafka.orders;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -19,8 +19,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibm.hello.configuration.KafkaConfiguration;
-import com.ibm.hello.listener.AgentsInitializer;
-import com.ibm.hello.model.OrderEvent;
+import com.ibm.hello.listener.kafka.orders.AgentsInitializer;
+import com.ibm.hello.model.kafka.orders.OrderEvent;
 
 
 /**

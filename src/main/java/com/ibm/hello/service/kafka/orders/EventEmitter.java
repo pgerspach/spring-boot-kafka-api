@@ -1,6 +1,6 @@
-package com.ibm.hello.service;
+package com.ibm.hello.service.kafka.orders;
 
-import com.ibm.hello.model.OrderEvent;
+import com.ibm.hello.model.kafka.orders.OrderEvent;
 
 public interface EventEmitter {
 

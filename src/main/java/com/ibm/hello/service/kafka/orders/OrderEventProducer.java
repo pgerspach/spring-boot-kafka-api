@@ -1,4 +1,4 @@
-package com.ibm.hello.service;
+package com.ibm.hello.service.kafka.orders;
 
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibm.hello.configuration.KafkaConfiguration;
-import com.ibm.hello.model.OrderEvent;
-import com.ibm.hello.task.OrderService;
+import com.ibm.hello.model.kafka.orders.OrderEvent;
+import com.ibm.hello.task.kafka.orders.OrderService;
 
 
 @Service

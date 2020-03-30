@@ -1,5 +1,4 @@
-package com.ibm.hello.model;
-
+package com.ibm.hello.model.kafka.orders;
 
 public class OrderParameters {
 	 private String customerID;

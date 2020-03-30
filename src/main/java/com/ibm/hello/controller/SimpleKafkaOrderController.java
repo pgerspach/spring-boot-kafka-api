@@ -7,11 +7,11 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ibm.hello.model.Address;
-import com.ibm.hello.model.OrderEntity;
-import com.ibm.hello.model.OrderFactory;
-import com.ibm.hello.model.OrderParameters;
-import com.ibm.hello.task.OrderService;
+import com.ibm.hello.model.kafka.orders.Address;
+import com.ibm.hello.model.kafka.orders.OrderEntity;
+import com.ibm.hello.model.kafka.orders.OrderFactory;
+import com.ibm.hello.model.kafka.orders.OrderParameters;
+import com.ibm.hello.task.kafka.orders.OrderService;
 
 @RestController
 public class SimpleKafkaOrderController {

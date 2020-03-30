@@ -1,4 +1,4 @@
-package com.ibm.hello.listener;
+package com.ibm.hello.listener.kafka.orders;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ibm.hello.configuration.KafkaConfiguration;
-import com.ibm.hello.task.OrderEventsAgent;
+import com.ibm.hello.task.kafka.orders.OrderEventsAgent;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.ibm.hello.model;
+package com.ibm.hello.model.kafka.orders;
 
 import java.util.UUID;
 
