@@ -1,4 +1,6 @@
 dependencies {
     // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
-    compile group: 'org.apache.kafka', name: 'kafka-clients', version: '2.4.0' 
+    compile group: 'org.apache.kafka', name: 'kafka-clients', version: '2.4.0'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
 }
