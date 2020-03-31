@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ibm.orderskafka.model.Address;
@@ -34,6 +35,13 @@ public class OrderKafkaController {
 		OrderEntity order = OrderFactory.createNewOrder(orderParameters);
 		orderService.createOrder(order);
 		return order;
-
+	}
+	
+	@PostMapping(value = "/order-producer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public OrderEntity orderProducer(OrderParameters orderParameters) {
+		LOGGER.info("In Controller for the simple order producer");
+		OrderEntity order = OrderFactory.createNewOrder(orderParameters);
+		orderService.createOrder(order);
+		return order;
 	}
 }
