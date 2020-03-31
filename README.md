@@ -80,3 +80,43 @@ Finally, the template components can be periodically updated by running the foll
 ```bash
 ./update-template.sh
 ```
+
+## Kafka setup
+
+Intall Kafka
+
+Start Zookeeper
+
+```bash
+./bin/zookeeper-server-start.sh config/zookeeper.properties
+```
+
+Start Kafka server/broker
+```bash
+./bin/kafka-server-start.sh config/server.properties
+```
+
+Describe Kafka topics
+```bash
+./bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe
+```
+
+Create a Kafka topic called demo with 1 partition and replication factor of 1
+```bash
+./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic demo
+```
+
+List Kafka topics
+```bash
+./bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+```
+
+Delete Kafka topic
+```bash
+./bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic demo
+```
+
+For the orders demo to work, the following topic needs to be created:
+```bash
+./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic orders
+```
