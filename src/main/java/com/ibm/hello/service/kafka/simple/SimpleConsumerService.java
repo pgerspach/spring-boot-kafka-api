@@ -1,6 +1,8 @@
 package com.ibm.hello.service.kafka.simple;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ibm.hello.config.kafka.simple.SimpleKafkaConstants;
+import com.ibm.hello.model.kafka.simple.SimpleKafkaConsumerResponse;
+import com.ibm.hello.model.kafka.simple.SimpleKafkaConsumerResponseRecord;
 
 @Service
 public class SimpleConsumerService {
@@ -26,9 +30,11 @@ public class SimpleConsumerService {
 	}
 
 	
-	public void runConsumer() {
+	public SimpleKafkaConsumerResponse runConsumer() {
 				
 		int noMessageToFetch = 0;
+		
+		List<SimpleKafkaConsumerResponseRecord> records = new ArrayList<SimpleKafkaConsumerResponseRecord>();
 
 		while (true) {
 			final ConsumerRecords<Long, String> consumerRecords = kafkaConsumer.poll(Duration.ofMillis(1000)); 
@@ -41,7 +47,10 @@ public class SimpleConsumerService {
 					continue;
 			}
 
+
+			
 			consumerRecords.forEach(record -> {
+				records.add(new SimpleKafkaConsumerResponseRecord(record.key(), record.value(), record.partition(), record.partition()));
 				LOGGER.info("--------------");
 				LOGGER.info("Record Key " + record.key());
 				LOGGER.info("Record value " + record.value());
@@ -51,6 +60,7 @@ public class SimpleConsumerService {
 			kafkaConsumer.commitAsync();
 		}
 		kafkaConsumer.close();
+		return new SimpleKafkaConsumerResponse(records);
 	}
 
 }

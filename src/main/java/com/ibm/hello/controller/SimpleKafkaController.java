@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ibm.hello.model.kafka.simple.SimpleKafkaConsumerResponse;
 import com.ibm.hello.model.kafka.simple.SimpleKafkaProducerResponse;
 import com.ibm.hello.service.kafka.simple.SimpleConsumerService;
 import com.ibm.hello.service.kafka.simple.SimpleProducerService;
@@ -28,17 +29,16 @@ public class SimpleKafkaController {
 		this.simpleConsumerService = simpleConsumerService;
 	}
 	
-    @GetMapping(value = "/simple-producer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/simple-kafka-producer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public SimpleKafkaProducerResponse simpleProducer() {
     	LOGGER.info("In Controller for the simple producer");
     	return simpleProducerService.runProducer();
     }
     
-    @GetMapping(value = "/simple-consumer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public String simpleConsumer() {
+    @GetMapping(value = "/simple-kafka-consumer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public SimpleKafkaConsumerResponse simpleConsumer() {
     	LOGGER.info("In Controller for the simple consumer");
-    	simpleConsumerService.runConsumer();
-    	return "Success";
+    	return simpleConsumerService.runConsumer();
     }
 
 }
