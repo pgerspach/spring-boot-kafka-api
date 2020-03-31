@@ -14,12 +14,17 @@ import com.ibm.hello.model.kafka.orders.OrderParameters;
 import com.ibm.hello.task.kafka.orders.OrderService;
 
 @RestController
-public class SimpleKafkaOrderController {
+public class OrderKafkaController {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(OrderKafkaController.class);
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SimpleKafkaOrderController.class);
+	OrderService orderService;
 
 	@Autowired
-	OrderService orderService;
+	public OrderKafkaController(OrderService orderService) {
+		super();
+		this.orderService = orderService;
+	}
 
 	@GetMapping(value = "/simple-order-producer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public OrderEntity simpleOrderProducer() {
@@ -35,11 +40,7 @@ public class SimpleKafkaOrderController {
 	@GetMapping(value = "/simple-order-consumer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public OrderEntity simpleOrderConsumer() {
 		LOGGER.info("In Controller for the simple order consumer");
-		Address address = new Address("123 main street", "ny", "usa", "ny", "10001");
-		OrderParameters orderParameters = new OrderParameters("12345", "12345", 1, address);
-		OrderEntity order = OrderFactory.createNewOrder(orderParameters);
-		orderService.createOrder(order);
-		return order;
+		return null;
 
 	}
 }

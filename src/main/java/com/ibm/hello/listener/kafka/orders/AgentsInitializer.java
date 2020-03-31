@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ibm.hello.configuration.KafkaConfiguration;
+import com.ibm.hello.config.kafka.orders.KafkaConfiguration;
 import com.ibm.hello.task.kafka.orders.OrderEventsAgent;
 
 

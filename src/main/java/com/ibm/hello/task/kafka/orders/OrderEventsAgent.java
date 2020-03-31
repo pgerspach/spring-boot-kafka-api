@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ibm.hello.configuration.KafkaConfiguration;
+import com.ibm.hello.config.kafka.orders.KafkaConfiguration;
 import com.ibm.hello.listener.kafka.orders.AgentsInitializer;
 import com.ibm.hello.model.kafka.orders.OrderEvent;
 

@@ -1,4 +1,4 @@
-package com.ibm.hello.configuration;
+package com.ibm.hello.config.kafka.orders;
 
 import java.time.Duration;
 import java.util.Map;
