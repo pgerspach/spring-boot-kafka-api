@@ -3,7 +3,6 @@ package com.ibm.hello.task.kafka.orders;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Properties;
 import java.util.Queue;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -15,11 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibm.hello.config.kafka.orders.KafkaConfiguration;
-import com.ibm.hello.listener.kafka.orders.AgentsInitializer;
 import com.ibm.hello.model.kafka.orders.OrderEvent;
 
 
@@ -29,41 +25,23 @@ import com.ibm.hello.model.kafka.orders.OrderEvent;
  */
 @Service
 public class OrderEventsAgent implements Runnable {
-	private static final Logger LOGGER = LoggerFactory.getLogger(OrderEventsAgent.class);
-
-	private KafkaConsumer<String, String> kafkaConsumer = null;
-	
-	private ObjectMapper objectMapper = new ObjectMapper();
-	//private Jsonb jsonb = JsonbBuilder.create();
 	
 	private boolean running = true;
 	
-	@Autowired
 	private KafkaConfiguration kafkaConfiguration;
 	
-	public OrderEventsAgent() {
-    }
-    
-    public OrderEventsAgent(KafkaConsumer<String, String> kafkaConsumer) {
-    	this.kafkaConsumer = kafkaConsumer;
-    }
-    
-    public boolean isRunning() {
-    	return running;
-    }
-    
-    private void init() {
-    	// if we need to have multiple threads then the clientId needs to be different
-    	// auto commit is set to true, and read from the last not committed offset
-    	Properties properties = kafkaConfiguration.getConsumerProperties(
-          		"OrderEventsAgent",	
-          		true,  
-          		"latest" );
-        this.kafkaConsumer = new KafkaConsumer<String, String>(properties);
-    	this.kafkaConsumer.subscribe(Collections.singletonList(kafkaConfiguration.getOrdersTopicName()));
-    	LOGGER.info("OrderEventsAgent has beein initialized.");
-    }
-    
+	private KafkaConsumer<String, String> orderConsumerKafkaTemplate;
+	
+	@Autowired
+	public OrderEventsAgent(KafkaConfiguration kafkaConfiguration,
+			KafkaConsumer<String, String> orderConsumerKafkaTemplate) {
+		super();
+		this.kafkaConfiguration = kafkaConfiguration;
+		this.orderConsumerKafkaTemplate = orderConsumerKafkaTemplate;
+	}
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(OrderEventsAgent.class);
+		
 	@Override
 	public void run() {
 		init();
@@ -71,30 +49,35 @@ public class OrderEventsAgent implements Runnable {
 			try {
 				Queue<OrderEvent> events = poll();
 				for (OrderEvent event : events) {
-					LOGGER.info("Calling event handler: {}", event.getPayload().getOrderID());
-					handle(event);
+					LOGGER.info("##################################  THIS IS THE EVENT HANDLER CODE #########################");
+					LOGGER.info("##### Event to process with business logic: {}",  event.getPayload().getOrderID());
 				}
 			} catch (KafkaException  ke) {
-				ke.printStackTrace();
+				LOGGER.info("There was a problem getting the order event from the topic.", ke);
 				// when issue on getting data from topic we need to reconnect
 				stop();
 			}
 		}
 		stop();
 	}
-
+	
 	public void stop() {
 		this.running = false;
 		try {
-			if (kafkaConsumer != null)
-				kafkaConsumer.close(KafkaConfiguration.CONSUMER_CLOSE_TIMEOUT);
+			if (orderConsumerKafkaTemplate != null)
+				orderConsumerKafkaTemplate.close(KafkaConfiguration.CONSUMER_CLOSE_TIMEOUT);
         } catch (Exception e) {
             LOGGER.info("Failed closing Consumer " +  e.getMessage());
         }
 	}
+		
+    private void init() {   	
+    	orderConsumerKafkaTemplate.subscribe(Collections.singletonList(kafkaConfiguration.getOrdersTopicName()));
+    	LOGGER.info("OrderEventsAgent has beein initialized.");
+    }
 
 	private Queue<OrderEvent> poll(){
-		 ConsumerRecords<String, String> recs = kafkaConsumer.poll(KafkaConfiguration.CONSUMER_POLL_TIMEOUT);
+		 ConsumerRecords<String, String> recs = orderConsumerKafkaTemplate.poll(KafkaConfiguration.CONSUMER_POLL_TIMEOUT);
 	     Queue<OrderEvent> result = new LinkedList<OrderEvent>();
 	        for (ConsumerRecord<String, String> rec : recs) {
 	        	OrderEvent event = deserialize(rec.value());
@@ -106,21 +89,11 @@ public class OrderEventsAgent implements Runnable {
 	private OrderEvent deserialize(String eventAsString) {
 		try {
 			LOGGER.info("Message to deserialize: {}", eventAsString);
+			ObjectMapper objectMapper = new ObjectMapper();
 			return objectMapper.readValue(eventAsString, OrderEvent.class);
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.info("Error deserializing order event.", e);
 		}
 		return null;
-	}
-	
-	private void handle(OrderEvent event) {
-		LOGGER.info("Event to process with business logic: {}",  event.getPayload().getOrderID());
 	}
 }

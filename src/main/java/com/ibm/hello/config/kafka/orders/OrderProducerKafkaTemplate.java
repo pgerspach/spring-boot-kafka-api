@@ -13,7 +13,7 @@ public class OrderProducerKafkaTemplate {
 	@Autowired
 	private KafkaConfiguration kafkaConfiguration;
 
-	@Bean //("orderProducerKafkaTemplate")
+	@Bean 
 	public KafkaProducer<String, String> getOrderProducerKafkaTemplate() {
 		Properties properties = kafkaConfiguration.getProducerProperties("order-event-producer");
 		return new KafkaProducer<String, String>(properties);

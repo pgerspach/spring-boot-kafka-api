@@ -36,11 +36,4 @@ public class OrderKafkaController {
 		return order;
 
 	}
-	
-	@GetMapping(value = "/simple-order-consumer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public OrderEntity simpleOrderConsumer() {
-		LOGGER.info("In Controller for the simple order consumer");
-		return null;
-
-	}
 }
