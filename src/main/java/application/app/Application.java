@@ -14,7 +14,7 @@ import org.springframework.core.env.Environment;
 
 @ServletComponentScan({"com.ibm.hello.*"})
 @SpringBootApplication
-@ComponentScan({"com.ibm.hello.*", "com.ibm.cloud_garage.*", "com.ibm.health"})
+@ComponentScan({"com.ibm.hello.*","com.ibm.simplekafka.*", "com.ibm.cloud_garage.*", "com.ibm.health"})
 public class Application extends SpringBootServletInitializer {
     @Autowired
     Environment environment;

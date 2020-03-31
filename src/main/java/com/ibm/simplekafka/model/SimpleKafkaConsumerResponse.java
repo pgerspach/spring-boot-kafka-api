@@ -1,4 +1,4 @@
-package com.ibm.hello.model.kafka.simple;
+package com.ibm.simplekafka.model;
 
 import java.util.List;
 

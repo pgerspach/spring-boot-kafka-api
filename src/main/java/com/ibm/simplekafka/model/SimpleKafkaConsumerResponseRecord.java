@@ -1,4 +1,4 @@
-package com.ibm.hello.model.kafka.simple;
+package com.ibm.simplekafka.model;
 
 public class SimpleKafkaConsumerResponseRecord {
 	long kafkaKey;

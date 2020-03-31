@@ -1,4 +1,4 @@
-package com.ibm.hello.config.kafka.simple;
+package com.ibm.simplekafka.config;
 
 import java.util.Properties;
 

@@ -1,4 +1,4 @@
-package com.ibm.hello.controller;
+package com.ibm.simplekafka.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,10 +7,10 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ibm.hello.model.kafka.simple.SimpleKafkaConsumerResponse;
-import com.ibm.hello.model.kafka.simple.SimpleKafkaProducerResponse;
-import com.ibm.hello.service.kafka.simple.SimpleConsumerService;
-import com.ibm.hello.service.kafka.simple.SimpleProducerService;
+import com.ibm.simplekafka.model.SimpleKafkaConsumerResponse;
+import com.ibm.simplekafka.model.SimpleKafkaProducerResponse;
+import com.ibm.simplekafka.service.SimpleConsumerService;
+import com.ibm.simplekafka.service.SimpleProducerService;
 
 @RestController
 public class SimpleKafkaController {
