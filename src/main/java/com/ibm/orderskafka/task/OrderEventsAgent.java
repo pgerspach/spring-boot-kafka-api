@@ -1,4 +1,4 @@
-package com.ibm.hello.task.kafka.orders;
+package com.ibm.orderskafka.task;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -15,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ibm.hello.config.kafka.orders.KafkaConfiguration;
-import com.ibm.hello.model.kafka.orders.OrderEvent;
+import com.ibm.orderskafka.config.KafkaConfiguration;
+import com.ibm.orderskafka.model.OrderEvent;
 
 
 /**

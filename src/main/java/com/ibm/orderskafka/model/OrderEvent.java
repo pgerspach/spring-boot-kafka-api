@@ -1,4 +1,4 @@
-package com.ibm.hello.model.kafka.orders;
+package com.ibm.orderskafka.model;
 
 public class OrderEvent {
 	

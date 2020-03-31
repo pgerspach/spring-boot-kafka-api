@@ -1,4 +1,4 @@
-package com.ibm.hello.controller;
+package com.ibm.orderskafka.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,11 +7,11 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ibm.hello.model.kafka.orders.Address;
-import com.ibm.hello.model.kafka.orders.OrderEntity;
-import com.ibm.hello.model.kafka.orders.OrderFactory;
-import com.ibm.hello.model.kafka.orders.OrderParameters;
-import com.ibm.hello.task.kafka.orders.OrderService;
+import com.ibm.orderskafka.model.Address;
+import com.ibm.orderskafka.model.OrderEntity;
+import com.ibm.orderskafka.model.OrderFactory;
+import com.ibm.orderskafka.model.OrderParameters;
+import com.ibm.orderskafka.task.OrderService;
 
 @RestController
 public class OrderKafkaController {

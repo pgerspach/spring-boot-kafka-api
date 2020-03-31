@@ -1,4 +1,4 @@
-package com.ibm.hello.service.kafka.orders;
+package com.ibm.orderskafka.service;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ibm.hello.config.kafka.orders.KafkaConfiguration;
-import com.ibm.hello.model.kafka.orders.OrderEvent;
+import com.ibm.orderskafka.config.KafkaConfiguration;
+import com.ibm.orderskafka.model.OrderEvent;
 
 @Service
 public class OrderEventProducer implements EventEmitter {
