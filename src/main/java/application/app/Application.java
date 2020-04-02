@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
-@ServletComponentScan({"com.ibm.orderskafka.*"})
+@ServletComponentScan({"com.ibm.orderskafka.*", "com.ibm.kafkastream.wordcount.*"})
 @SpringBootApplication
 @ComponentScan({"com.ibm.hello.*","com.ibm.simplekafka.*", "com.ibm.orderskafka.*", "com.ibm.kafkastream.wordcount.*", "com.ibm.cloud_garage.*", "com.ibm.health"})
 public class Application extends SpringBootServletInitializer {
