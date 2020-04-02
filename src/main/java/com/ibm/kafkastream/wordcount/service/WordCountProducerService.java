@@ -37,7 +37,6 @@ public class WordCountProducerService implements EventEmitter {
 	@Override
 	public void emit(String words)  {
 		LOGGER.info("##### Sending to kafka topic:{} the following words: {} ",kafkaConfiguration.getWordCountProducerTopicName(), words);
-		//String key = orderEvent.getPayload().getOrderID();
 
 		ProducerRecord<String, String> record = new ProducerRecord<String, String>(kafkaConfiguration.getWordCountProducerTopicName(), words);
 		Future<RecordMetadata> send = wordCountProducerKafkaTemplate.send(record, new Callback() {

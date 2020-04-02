@@ -3,6 +3,7 @@ package com.ibm.orderskafka.service;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -41,6 +42,9 @@ public class OrderEventProducer implements EventEmitter {
 		String value = objectMapper.writeValueAsString(orderEvent);
 		LOGGER.info("Send " + value);
 		String key = orderEvent.getPayload().getOrderID();
+		
+		LOGGER.info("##### Sending to kafka topic:{} the following value: {} ",kafkaConfiguration.getOrdersTopicName(), value);
+
 
 		ProducerRecord<String, String> record = new ProducerRecord<>(kafkaConfiguration.getOrdersTopicName(), key,
 				value);
@@ -50,17 +54,16 @@ public class OrderEventProducer implements EventEmitter {
 			@Override
 			public void onCompletion(RecordMetadata metadata, Exception exception) {
 				if (exception != null) {
-					exception.printStackTrace();
+					LOGGER.error("##### Error sending record: {} to Kafka topic: {}", value, kafkaConfiguration.getOrdersTopicName(), exception);
 				} else {
-					System.out.println("The offset of the record just sent is: " + metadata.offset());
-
+					LOGGER.info("##### Successfully sent to topic: {} , the words: {}.  The offset is: {}. ", kafkaConfiguration.getOrdersTopicName(), value, metadata.offset());
 				}
 			}
 		});
 		try {
 			send.get(KafkaConfiguration.PRODUCER_TIMEOUT_SECS, TimeUnit.SECONDS);
-		} catch (ExecutionException e) {
-			e.printStackTrace();
+		} catch (ExecutionException | InterruptedException | TimeoutException e) {
+			LOGGER.error("##### Error sending record: {} to Kafka topic: {}", value, kafkaConfiguration.getOrdersTopicName(), e);
 		}
 	}
 
