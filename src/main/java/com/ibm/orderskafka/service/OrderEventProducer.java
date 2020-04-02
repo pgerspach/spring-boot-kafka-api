@@ -11,6 +11,7 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +29,7 @@ public class OrderEventProducer implements EventEmitter {
 
 	@Autowired
 	public OrderEventProducer(KafkaConfiguration kafkaConfiguration,
-			KafkaProducer<String, String> orderProducerKafkaTemplate) {
+			@Qualifier("orderProducerKafkaTemplateA") KafkaProducer<String, String> orderProducerKafkaTemplate) {
 		super();
 		this.kafkaConfiguration = kafkaConfiguration;
 		this.orderProducerKafkaTemplate = orderProducerKafkaTemplate;
