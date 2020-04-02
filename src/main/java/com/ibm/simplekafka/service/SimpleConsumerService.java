@@ -52,10 +52,10 @@ public class SimpleConsumerService {
 			consumerRecords.forEach(record -> {
 				records.add(new SimpleKafkaConsumerResponseRecord(record.key(), record.value(), record.partition(), record.partition()));
 				LOGGER.info("--------------");
-				LOGGER.info("Record Key " + record.key());
-				LOGGER.info("Record value " + record.value());
-				LOGGER.info("Record partition " + record.partition());
-				LOGGER.info("Record offset " + record.offset());
+				LOGGER.info("###### Record Key " + record.key());
+				LOGGER.info("###### Record value " + record.value());
+				LOGGER.info("###### Record partition " + record.partition());
+				LOGGER.info("###### Record offset " + record.offset());
 			});
 			kafkaConsumer.commitAsync();
 		}

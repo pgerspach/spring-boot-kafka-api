@@ -36,7 +36,7 @@ public class SimpleProducerService {
 			final ProducerRecord<Long, String> record = new ProducerRecord<Long, String>(SimpleKafkaConstants.TOPIC_NAME, Long.valueOf(index), "This is record " + index);
 			try {
 				RecordMetadata metadata = kafkaProducer.send(record).get();
-				LOGGER.info("Record sent with key " + index + " to partition " + metadata.partition()
+				LOGGER.info("#########Record sent with key " + index + " to partition " + metadata.partition()
 						+ " with offset " + metadata.offset());
 				successCounter++;
 			} catch (ExecutionException | InterruptedException e) {
