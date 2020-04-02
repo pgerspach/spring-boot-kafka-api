@@ -120,3 +120,8 @@ For the orders demo to work, the following topic needs to be created:
 ```bash
 ./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic orders
 ```
+
+For the wordcount demo to work, the following topic needs to be created:
+```bash
+./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic streams-wordcount-plaintext-input
+```

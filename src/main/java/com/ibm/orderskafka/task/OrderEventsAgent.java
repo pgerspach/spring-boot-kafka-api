@@ -53,7 +53,7 @@ public class OrderEventsAgent implements Runnable {
 					LOGGER.info("##### Event to process with business logic: {}",  event.getPayload().getOrderID());
 				}
 			} catch (KafkaException  ke) {
-				LOGGER.info("There was a problem getting the order event from the topic.", ke);
+				LOGGER.error("There was a problem getting the order event from the topic.", ke);
 				// when issue on getting data from topic we need to reconnect
 				stop();
 			}
@@ -67,7 +67,7 @@ public class OrderEventsAgent implements Runnable {
 			if (orderConsumerKafkaTemplate != null)
 				orderConsumerKafkaTemplate.close(KafkaConfiguration.CONSUMER_CLOSE_TIMEOUT);
         } catch (Exception e) {
-            LOGGER.info("Failed closing Consumer " +  e.getMessage());
+            LOGGER.error("Failed closing Consumer " +  e.getMessage());
         }
 	}
 		
@@ -92,7 +92,7 @@ public class OrderEventsAgent implements Runnable {
 			ObjectMapper objectMapper = new ObjectMapper();
 			return objectMapper.readValue(eventAsString, OrderEvent.class);
 		} catch (IOException e) {
-			LOGGER.info("Error deserializing order event.", e);
+			LOGGER.error("Error deserializing order event.", e);
 		}
 		return null;
 	}

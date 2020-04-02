@@ -51,7 +51,7 @@ public class AgentsInitializer implements ServletContextListener{
         try {
             executor.awaitTermination(KafkaConfiguration.TERMINATION_TIMEOUT_SEC, TimeUnit.SECONDS);
         } catch (InterruptedException ie) {
-            LOGGER.info("awaitTermination( interrupted " + ie.getLocalizedMessage());
+            LOGGER.error("awaitTermination( interrupted " + ie.getLocalizedMessage());
         }
     }
 

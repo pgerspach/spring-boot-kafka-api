@@ -32,7 +32,7 @@ public class OrderService {
 			LOGGER.info("emit event for " + order.getOrderID());
 			eventProducer.emit(orderEvent);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Error:", e);
 		}
 	}
 
