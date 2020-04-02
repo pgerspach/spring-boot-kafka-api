@@ -81,7 +81,7 @@ Finally, the template components can be periodically updated by running the foll
 ./update-template.sh
 ```
 
-## Kafka setup
+## Kafka setup on local labtop
 
 Intall Kafka
 
@@ -96,14 +96,11 @@ Start Kafka server/broker
 ./bin/kafka-server-start.sh config/server.properties
 ```
 
+## Useful Kafka commands
+
 Describe Kafka topics
 ```bash
 ./bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe
-```
-
-Create a Kafka topic called demo with 1 partition and replication factor of 1
-```bash
-./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic demo
 ```
 
 List Kafka topics
@@ -116,12 +113,37 @@ Delete Kafka topic
 ./bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic demo
 ```
 
+## Simple Kafka example 
+This app consists of a simple kafka producer rest endpoint that can write a message to a kafka topic and a simple consumer rest endpoint that reads a message from the topic.
+See the code in java package 'com.ibm.simplekafka'.
+
+Create a Kafka topic called demo with 1 partition and replication factor of 1
+```bash
+./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic demo
+```
+
+## Orders Kafka example 
+This app consists of a a producer rest endpoint that sends an order to a kafka topic.  
+There is an listener agent that listens for any new messages/orders on the topic and handles them.
+Right now, the handler consists of logging the order message.
+
 For the orders demo to work, the following topic needs to be created:
 ```bash
 ./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic orders
 ```
 
+
+## Word Count Streaming Kafka example 
+
+This app consists of a producer rest endpoint that sends a string of words to a topic.
+There is a listener agent running the word count stream application that listens for new messages on the input topic
+can counts the occurance of individual words and puts the result on the output topic.
+
 For the wordcount demo to work, the following topic needs to be created:
 ```bash
 ./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic streams-wordcount-plaintext-input
+```
+
+```bash
+./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic streams-wordcount-output
 ```
