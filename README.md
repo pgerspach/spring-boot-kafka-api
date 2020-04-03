@@ -81,7 +81,7 @@ Finally, the template components can be periodically updated by running the foll
 ./update-template.sh
 ```
 
-## Kafka setup on local labtop
+## Kafka setup on local laptop
 
 Intall Kafka
 
