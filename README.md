@@ -134,11 +134,14 @@ For the orders demo to work, the following topic needs to be created:
 
 ## Word Count Streaming Kafka example 
 
-This app consists of a producer rest endpoint that sends a string of words to a topic.
+This app consists of a producer rest endpoint that sends a string of words to an input topic.
 There is a listener agent running the word count stream application that listens for new messages on the input topic
-can counts the occurance of individual words and puts the result on the output topic.
+and counts the occurance of individual words and puts the result on the output topic.
 
-
+For the word count stream app to work, the following topics needs to be created:
+```bash
+./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic streams-wordcount-plaintext-input
+```
 ```bash
 ./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic streams-wordcount-output
 ```
