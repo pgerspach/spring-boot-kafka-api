@@ -7,15 +7,8 @@ hello:
 
 greetingservice:
   beanName: "hola"
-  
-kafka-orders:
-  ordersTopicName: orders
-  kafkaAcknowledge: "1"
-  kafkaProducerIdempotence: false
-  kafkaConsumerGroupid: orders-consumer-group
-  kafkaBrokers: "localhost:9092"
 
-kafka-word-count:
+kafka:
   commonProperties:
     bootstrapServers: ${BOOTSTRAP_SERVERS:localhost:9092}
     securityProtocol: SASL_SSL
@@ -29,14 +22,30 @@ kafka-word-count:
     sslTruststoreLocation: ${TRUSTSTORE_LOCATION:}
     sslTruststorePassword: ${TRUSTSTORE_PASSWORD:}
 
-  producerProperties:
-    topic: ${PRODUCER_TOPIC:streams-wordcount-plaintext-input}
-    acks: ${ACKS:1}
-    enableIdempotence: ${ENABLE_IDEMPOTENCE:false}
-    clientId: ${CLIENT_ID:OrderEventsAgent}
+  orders:
+    sharedProperties:
+      topic: ${ORDERS_TOPIC:orders}
 
-  consumerProperties:
-    groupId: ${GROUP_ID:order-ms-consumer-grp}
+    producerProperties:
+      acks: ${ORDERS_ACKS:1}
+      enableIdempotence: ${ORDERS_ENABLE_IDEMPOTENCE:false}
+      clientId: ${ORDERS_PRODUCER_CLIENT_ID:order-event-producer}
+
+    consumerProperties:
+      groupId: ${ORDERS_GROUP_ID:order-ms-consumer-grp}
+      clientId: ${ORDERS_CONSUMER_CLIENT_ID:OrderEventsAgent}
+      autoOffsetReset: ${ORDERS_AUTO_OFFSET_RESET:latest}
+      enableAutoCommit: ${ORDERS_ENABLE_AUTO_COMMIT:true}
+
+  word-count:
+    producerProperties:
+      topic: ${WORD_COUNT_PRODUCER_TOPIC:streams-wordcount-plaintext-input}
+      acks: ${WORD_COUNT_ACKS:1}
+      enableIdempotence: ${WORD_COUNT_ENABLE_IDEMPOTENCE:false}
+      clientId: ${WORD_COUNT_CLIENT_ID:OrderEventsAgent}
+
+    consumerProperties:
+      groupId: ${WORD_COUNT_GROUP_ID:order-ms-consumer-grp}
 
 swagger:
   baseApiPackage:
