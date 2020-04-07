@@ -44,8 +44,11 @@ kafka:
       enableIdempotence: ${WORD_COUNT_ENABLE_IDEMPOTENCE:false}
       clientId: ${WORD_COUNT_CLIENT_ID:OrderEventsAgent}
 
-    consumerProperties:
-      groupId: ${WORD_COUNT_GROUP_ID:order-ms-consumer-grp}
+    streamProperties:
+      inputTopic: ${WORD_COUNT_STREAM_INPUT_TOPIC:streams-wordcount-plaintext-input}
+      outputTopic: ${WORD_COUNT_STREAM_INPUT_TOPIC:streams-wordcount-output}
+      applicationId: ${WORD_COUNT_STREAM_APPLICATION_ID:streams-wordcount}
+      store-name: ${WORD_COUNT_STREAM_STORE_NAME:counts-store}
 
 swagger:
   baseApiPackage:

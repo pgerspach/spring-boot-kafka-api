@@ -12,8 +12,10 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.config.SaslConfigs;
 import org.apache.kafka.common.config.SslConfigs;
+import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.apache.kafka.streams.StreamsConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -35,13 +37,18 @@ public class WordCountKafkaConfiguration {
 		return this.producerProperties;
 	}
 
+    private final Map<String, String> streamProperties = new HashMap<>();
+    public Map<String, String> getStreamProperties(){
+        return this.streamProperties;
+    }
+
     @Autowired
     public WordCountKafkaConfiguration(CommonKafkaPropertiesConfiguration commonKafkaPropertiesConfiguration) {
         this.commonProperties = commonKafkaPropertiesConfiguration.buildCommonProperties();
     }
 
 	public String getWordCountProducerTopicName() {
-		return producerProperties.get("topic");
+	    return producerProperties.get("topic");
 	}
 
 	public Properties buildProducerProperties() {
@@ -56,4 +63,26 @@ public class WordCountKafkaConfiguration {
         return properties;
 	}
 
+	public Properties buildStreamingProperties(){
+        Properties properties = new Properties();
+        properties.putAll(commonProperties);
+
+        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, streamProperties.get("applicationId"));
+        properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+        properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+
+        return properties;
+    }
+
+    public String getStreamingInputTopicName() {
+        return streamProperties.get("inputTopic");
+    }
+
+    public String getStreamingOutputTopicName() {
+        return streamProperties.get("outputTopic");
+    }
+
+    public String getStreamingStoreName() {
+        return streamProperties.get("store-name");
+    }
 }
