@@ -1,6 +1,7 @@
 package com.ibm.kafkastream.wordcount.config;
 
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -16,7 +17,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "kafka-orders") 
+@ConfigurationProperties(prefix = "kafka-word-count")
 public class WordCountKafkaConfiguration {
 	private static final Logger logger = Logger.getLogger(WordCountKafkaConfiguration.class.getName());
 	public static final long PRODUCER_TIMEOUT_SECS = 10;
@@ -25,36 +26,20 @@ public class WordCountKafkaConfiguration {
 	public static final Duration CONSUMER_CLOSE_TIMEOUT = Duration.ofSeconds(10);
     public static final long TERMINATION_TIMEOUT_SEC = 10;
 
-  
-    protected String wordCountProducerTopicName;
-   
-    protected String kafkaAcknowledge;
-    
-    protected boolean kafkaProducerIdempotence;
-    
-    protected String kafkaConsumerGroupid;
-    
-    protected String kafkaBrokers;
-        
-	private String clientId;
-    
-    public WordCountKafkaConfiguration() {}
-    
-    
-    public Properties getConsumerProperties(
-    		String clientid, 
-    		boolean commit,
-    		String offset) {
-        Properties properties = buildCommonProperties();
-        properties.put(ConsumerConfig.GROUP_ID_CONFIG,  getConsumerGroupID());
-        properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, Boolean.toString(commit));
-        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, offset);
-        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        properties.put(ConsumerConfig.CLIENT_ID_CONFIG, getClientId());
-        properties.forEach((k,v)  -> logger.info(k + " : " + v)); 
-        return properties;
-    }
+    private final Map<String, String> commonProperties = new HashMap<>();
+	public Map<String, String> getCommonProperties(){
+		return this.commonProperties;
+	}
+
+	private final Map<String, String> producerProperties = new HashMap<>();
+	public Map<String, String> getProducerProperties(){
+		return this.producerProperties;
+	}
+
+	private final Map<String, String> consumerProperties = new HashMap<>();
+	public Map<String, String> getConsumerProperties(){
+		return this.consumerProperties;
+	}
     
     /**
      * Take into account the environment variables if set
@@ -64,80 +49,47 @@ public class WordCountKafkaConfiguration {
     private  Properties buildCommonProperties() {
         Properties properties = new Properties();
         Map<String, String> env = System.getenv();
-        
-        properties.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        logger.info(String.format("Bootstrap Servers: %s", commonProperties.get("bootstrapServers")));
+        properties.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, commonProperties.get("bootstrapServers"));
 
-    	if (env.get("KAFKA_APIKEY") != null) {
-          properties.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_SSL");
-          properties.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
+    	if (!commonProperties.get("apiKey").isEmpty()) {
+          properties.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, commonProperties.get("securityProtocol"));
+          properties.put(SaslConfigs.SASL_MECHANISM, commonProperties.get("saslMechanism"));
           properties.put(SaslConfigs.SASL_JAAS_CONFIG,
-                    "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"token\" password=\""
-                            + env.get("KAFKA_APIKEY") + "\";");
-          properties.put(SslConfigs.SSL_PROTOCOL_CONFIG, "TLSv1.2");
-          properties.put(SslConfigs.SSL_ENABLED_PROTOCOLS_CONFIG, "TLSv1.2");
-          properties.put(SslConfigs.SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG, "HTTPS");
+                    String.format("org.apache.kafka.common.security.plain.PlainLoginModule required username=\"%s\" password=\"%s\";",
+							commonProperties.get("username"),
+							commonProperties.get("apiKey")));
+          properties.put(SslConfigs.SSL_PROTOCOL_CONFIG, commonProperties.get("sslProtocol"));
+          properties.put(SslConfigs.SSL_ENABLED_PROTOCOLS_CONFIG, commonProperties.get("sslEnabledProtocols"));
+          properties.put(SslConfigs.SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG, commonProperties.get("sslEndpointIdentificationAlgorithm"));
 
-          if ("true".equals(env.get("TRUSTSTORE_ENABLED"))){
-            properties.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, env.get("TRUSTSTORE_PATH"));
-            properties.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, env.get("TRUSTSTORE_PWD"));
+          if ("true".equals(commonProperties.get("truststoreEnabled"))){
+            properties.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, commonProperties.get("sslTruststoreLocation"));
+            properties.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, commonProperties.get("sslTruststorePassword"));
           }
         }
         return properties;
     }
 
 	public String getWordCountProducerTopicName() {
-		
-		if (wordCountProducerTopicName == null) {
-			wordCountProducerTopicName = "streams-wordcount-plaintext-input";
-		}
-		return wordCountProducerTopicName;
-	}
-	
-	public String getAcknowledge() {
-		if (kafkaAcknowledge == null) {
-			kafkaAcknowledge = "1";
-		}
-		return kafkaAcknowledge;
-	}
-	
-	public String getConsumerGroupID() {
-		if (kafkaConsumerGroupid == null) {
-			kafkaConsumerGroupid = "order-ms-consumer-grp";
-		}
-		return kafkaConsumerGroupid;
-	}
-	
-	public boolean getIdempotence() {
-		return kafkaProducerIdempotence;
+		return producerProperties.get("topic");
 	}
 
-	public String getClientId() {
-		if (clientId == null) {
-			clientId="OrderEventsAgent";
-		}
-		
-		return clientId;
+	
+	public String getConsumerGroupID() {
+		return consumerProperties.get("groupId");
 	}
+
 
 	public Properties getProducerProperties(String clientId) {
 		Properties properties = buildCommonProperties();
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.put(ProducerConfig.CLIENT_ID_CONFIG, clientId);
-        properties.put(ProducerConfig.ACKS_CONFIG, getAcknowledge());
-        properties.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, getIdempotence());
+        properties.put(ProducerConfig.ACKS_CONFIG, producerProperties.get("acks"));
+        properties.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, producerProperties.get("enableIdempotence"));
         properties.forEach((k,v)  -> logger.info(k + " : " + v)); 
         return properties;
-	}
-
-
-	public String getKafkaBrokers() {
-		return kafkaBrokers;
-	}
-
-
-	public void setKafkaBrokers(String kafkaBrokers) {
-		this.kafkaBrokers = kafkaBrokers;
 	}
 
 }

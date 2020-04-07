@@ -14,7 +14,29 @@ kafka-orders:
   kafkaProducerIdempotence: false
   kafkaConsumerGroupid: orders-consumer-group
   kafkaBrokers: "localhost:9092"
-  
+
+kafka-word-count:
+  commonProperties:
+    bootstrapServers: ${BOOTSTRAP_SERVERS:localhost:9092}
+    securityProtocol: SASL_SSL
+    saslMechanism: PLAIN
+    username: ${USERNAME:token}
+    apiKey: ${API_KEY:}
+    sslProtocol: TLSv1.2
+    sslEnabledProtocols: TLSv1.2
+    sslEndpointIdentificationAlgorithm: HTTPS
+    truststoreEnabled: ${TRUSTSTORE_ENABLED:false}
+    sslTruststoreLocation: ${TRUSTSTORE_LOCATION:}
+    sslTruststorePassword: ${TRUSTSTORE_PASSWORD:}
+
+  producerProperties:
+    topic: ${PRODUCER_TOPIC:streams-wordcount-plaintext-input}
+    acks: ${ACKS:1}
+    enableIdempotence: ${ENABLE_IDEMPOTENCE:false}
+    clientId: ${CLIENT_ID:OrderEventsAgent}
+
+  consumerProperties:
+    groupId: ${GROUP_ID:order-ms-consumer-grp}
 
 swagger:
   baseApiPackage:
